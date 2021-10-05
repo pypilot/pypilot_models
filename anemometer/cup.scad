@@ -3,14 +3,14 @@ $fn=60;
 cup_d = 45;
 cup_r = 50;
 
-bearing_d = 22.3;
+bearing_d = 22.2;
 bearing_h = 7;
 
 angle=86;
 
 pipe_d=10;
 
-magnet_d=4;
+magnet_d=4.1;
 
 key_r=.9;
 
@@ -62,7 +62,7 @@ difference() {
         cylinder(r=magnet_d/2, h=bearing_d/2);
 
   for(i=[0:2])
-      translate([0, 0, bearing_h])
+      translate([0, 0, bearing_h-.2])
         rotate(60+120*i)
           rotate([90, 0, 0])
             cylinder(r=key_r, h=bearing_d*2);

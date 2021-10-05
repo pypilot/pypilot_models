@@ -28,21 +28,15 @@ module body() {
 module vane() {
       union() {
          rotate(90, [-1, 0, 0])
-            cylinder(50, r1=5, r2=2.4);
+            cylinder(30, r1=5, r2=2.4);
           rotate(90, [0, 0, 1])
               rotate(180, [1, 0, 0]) {
-                   translate([120, 0, 0])
-             linear_extrude(height = 45, scale = .6)
-               translate([-90, 0, 0])
-                 polygon(points = airfoil_data(10, L=50));
-          translate([80, 0, 0])
-            mirror([0, 0, 1])
-                  translate([-10,0,0])
-             linear_extrude(height = 10, scale = .6)
-               translate([-40, 0, 0])
-                 polygon(points = airfoil_data(10, L=50));
-                }
-      }
+                   translate([100, 0, -10])
+             linear_extrude(height = 55, scale = .6)
+               translate([-100, 0, 0])
+                 polygon(points = airfoil_data(10, L=55));
+              }
+          }
 }
 
 
