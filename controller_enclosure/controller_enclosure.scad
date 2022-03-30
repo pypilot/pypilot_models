@@ -105,7 +105,7 @@ module cable_holes() {
         cable_hole(3);
     }        
    hull() {
-        translate([-12, -4  3, 14])
+        translate([-12, -43, 10])
        rotate(90)        cable_hole(3.5);
     }
    hull() {

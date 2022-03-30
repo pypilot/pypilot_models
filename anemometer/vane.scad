@@ -19,34 +19,60 @@ module body() {
              cylinder(h=bearing_h+pcb_h+5.6, r1=bearing_d/2+2, r2=bearing_d/2+3);
           translate([0, 0, bearing_h+4])
           minkowski() {
-              sphere(1);
-            cylinder(h=pcb_h+1, r1=bearing_d/2+2.4, r2=bearing_d/2+2.4);
+              sphere(1.2);
+            cylinder(h=pcb_h+1.2, r1=bearing_d/2+2.4, r2=bearing_d/2+2.4);
           }
      }
 }
 
 module vane() {
+    difference() {
       union() {
          rotate(90, [-1, 0, 0])
-            cylinder(30, r1=5, r2=2.4);
+            cylinder(28, r1=6, r2=1.8);
           rotate(90, [0, 0, 1])
               rotate(180, [1, 0, 0]) {
-                   translate([100, 0, -10])
-             linear_extrude(height = 55, scale = .6)
-               translate([-100, 0, 0])
-                 polygon(points = airfoil_data(10, L=55));
+                   translate([92, 0, -10])
+             linear_extrude(height = 56, scale = .6)
+               translate([-92, 0, 0])
+                 polygon(points = airfoil_data(10, L=45));
               }
           }
+
+            // round corners of vane
+          translate([-20,40.3, 2.1])
+              difference() {
+                cube([40, 10, 10]);
+                rotate([0, 90, 0])
+                    cylinder(r=8, h=40);
+               }
+
+         translate([-20,59.6, -48])
+              difference() {
+                cube([40, 10, 6]);
+                  translate([0, 0, 5])
+                rotate([0, 90, 0])
+                    cylinder(r=3, h=40);
+               }
+    
+         translate([-20,32, -47])
+              difference() {
+                cube([40, 7, 3]);
+                  translate([0, 7, 5])
+                rotate([0, 90, 0])
+                    cylinder(r=4, h=40);
+               }               
+      }
 }
 
 
 module head() {
   rotate(90, [1, 0, 0])
       difference() {
-         scale([1, .45, 1])
-         cylinder(h=70, r1=7, r2=5);
+         scale([1, .5, 1])
+         cylinder(h=55, r1=7, r2=5.6);
          translate([0, 0, -1])
-            cylinder(h=75, r=1.8);
+            cylinder(h=75, r=2.1);
       }
 }
 
@@ -62,14 +88,14 @@ difference() {
    cylinder(r=pcb_d/2, h=pcb_h+2);
    translate([0, 0, pcb_h])
        cylinder(r=bearing_d/2-2, h=bearing_h+pcb_h+2);
-   translate([0, 0, pcb_h+1.2])
+   translate([0, 0, pcb_h+1.4])
        cylinder(r=bearing_d/2, h=bearing_h+pcb_h+2);
    
-   translate([0, 0, pcb_h+bearing_h+2.8 ])
+   translate([0, 0, pcb_h+bearing_h+3.1 ])
    for(i=[0:2])
        rotate(i*120)
         rotate([90, 0, 0])
-           cylinder(r=.9, h=bearing_d);
+           cylinder(r=1.15, h=bearing_d);
    
    translate([-magnet_size/2, -magnet_size/2,-magnet_h+.1])
    cube([magnet_size*2, magnet_size, magnet_h]);

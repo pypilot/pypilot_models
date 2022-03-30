@@ -76,7 +76,7 @@ module base(radius) {
        for(i=[0:2]) {
          rotate(120*i)
            translate([radius+total_height/8, 0, 0])
-             cylinder(h=3, r=total_height/4 );
+             cylinder(h=3, r=total_height/3.2 );
        }
        cylinder(r=radius, h=3);
        cylinder(r=1, h=20);
@@ -124,6 +124,7 @@ module board_holder() {
             }
     }
 }
+
 if(0)
 union() {
   translate([0, 0, total_height])
@@ -148,6 +149,6 @@ union() {
         }
     }
 }
-
+else
     translate([total_radius*2, 0, 0])
     board_holder();
