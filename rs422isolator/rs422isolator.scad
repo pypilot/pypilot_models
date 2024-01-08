@@ -28,6 +28,8 @@ module screw_holder() {
    }
 }
 
+if(1) 
+
 union() {
 difference() {
     union() {
@@ -81,6 +83,7 @@ translate([-board_length/2+ 3, -board_width/2+3, 0])
     cylinder(r=2, h=2+thickness);
 }
 
+if(0)
 translate([0, board_width*2, 0])
     difference() {
         translate([-board_length/2-thickness*2-fit, -board_width/2-thickness*2-fit, 0])
