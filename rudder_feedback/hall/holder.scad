@@ -9,12 +9,14 @@
 $fn=60;
 
 bolt_height = 4;
-bolt_diameter = 5;
+bolt_diameter = 5.4;
 magnet_diameter = 14.5;
-magnet_height = 3;
+magnet_height = 3.4;
 nut_height = 3;
-bearing_height = 17;
-bearing_diameter = 6.3;
+bearing_height = 23;
+
+washer_diameter =14;
+washer_thickness=.8;
 
 board_width =12;
 board_length = 8.2;
@@ -24,9 +26,9 @@ board_holder_thickness=2;
 screw_diameter=3.6;
 
 fit=.4;
-wire_r = 2.95;
+wire_r = 3;
 
-total_height = bolt_height+magnet_height+nut_height+bearing_height+board_height;
+total_height = bolt_height+magnet_height+nut_height+bearing_height+board_height+board_holder_thickness;
 
 // overlapping cylinder for subtraction
 module ocylinder(r, h) {
@@ -40,23 +42,27 @@ module ccube(x, y, z) {
         cube([x, y, z+.2]);
 }
 
-total_radius = total_height*.8;
+total_radius = 26.4;
 h1 = bolt_height+magnet_height + nut_height;
 holder_length=total_radius - board_length;
     
 module top() {
-    ocylinder(r=magnet_diameter/2, h = h1);
-    translate([0, 0, h1]) {         
-        ocylinder(r=bearing_diameter/2, h=bearing_height/2-2);
-        ocylinder(r=bolt_diameter/2, h=bearing_height);
-        translate([0, 0, bearing_height/2+2])
-            ocylinder(r=bearing_diameter/2, h=bearing_height/2);
+    difference() {
+   ocylinder(r=magnet_diameter/2, h = h1);
+        translate([0,0,h1-.4])
+   ocylinder(r=bolt_diameter/2+1, h = h1);
     }
+    translate([0, 0, h1-2])
+       ocylinder(r=bolt_diameter/2, h=bearing_height+2);
+    translate([0, 0, h1+bearing_height-washer_thickness])
+
+       ocylinder(r=washer_diameter/2, h=washer_thickness+1);
+    
 }
 
 module holder() {
     difference() {
-        cylinder(r1=total_radius, r2=(bearing_diameter/2+total_radius/2)/2, h=total_height);
+        cylinder(r1=total_radius, r2=(bolt_diameter/2+total_radius/2)/2, h=total_height);
         translate([0, 0, board_height+board_holder_thickness])
             top();
         t = board_holder_thickness;
@@ -75,11 +81,10 @@ module base(radius) {
      hull() {
        for(i=[0:2]) {
          rotate(120*i)
-           translate([radius+total_height/8, 0, 0])
-             cylinder(h=3, r=total_height/3.2 );
+           translate([radius, 0, 0])
+             cylinder(h=7, r=total_radius/2.7 );
        }
-       cylinder(r=radius, h=3);
-       cylinder(r=1, h=20);
+       cylinder(r=radius, h7);
      }
      translate([0, 0, -.1])
      cylinder(r1=radius-.5, r2 = radius-12, h= 22);
@@ -125,7 +130,7 @@ module board_holder() {
     }
 }
 
-if(0)
+if(1)
 union() {
   translate([0, 0, total_height])
      mirror([0,0,1]) {

@@ -386,15 +386,15 @@ module top() {
 }
 
 //translate([1.4*width, 0, 0])
-   bottom();
+ //  bottom();
 
 
 
-translate([0,0,35])
-rotate([180,0,0]) 
+//translate([0,0,35])
+//rotate([180,0,0]) 
 {
 
 
-//top();
+top();
 
 }
