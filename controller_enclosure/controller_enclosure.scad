@@ -1,19 +1,19 @@
 $fn=30;
 
-highpower=false;
-midpower=true;
+highpower=true;
+midpower=false;
 
 width_gap=1.6;
-width = (highpower ? 87 : (midpower ? 71 : 51)) + width_gap*2;
-length = highpower ? 117 : (midpower ? 104 : 77);
+width = (highpower ? 85.5 : (midpower ? 71 : 50)) + width_gap*2;
+length = highpower ? 116 : (midpower ? 104 : 76);
 
-bottom_height = highpower ? 12 : midpower ? 8 : 12;
+bottom_height = highpower ? 10 : midpower ? 8 : 8;
 thickness = 1.2;
-top_thickness = 1.2;
+top_thickness = 1.6;
 bottom_edge = 12;
 board_thickness=3;
 
-top_height= highpower ? 40 : midpower ? 21 : 23;
+top_height= highpower ? 40 : midpower ? 21 : 21;
 
 module cubecxy(x, y, z) {
     translate([-x/2, -y/2, 0])
@@ -25,9 +25,7 @@ mount_gap=highpower ? 5 : 4;
 module flange() {
     translate([0, length/2, .2])
     difference() {
-        hull() {
-            
-            if(highpower  || midpower) {
+        hull() {            
                 hull() {
                     translate([-width*.26, 0, 0])
                      rotate(45)
@@ -42,19 +40,6 @@ module flange() {
                             cylinder(r=6, h=mount_gap+bottom_height/3);
                         }
                 }
-            } else {
-                scale([.8,1,1])
-                rotate(45)
-                minkowski() {
-                    cubecxy(width*.6, width*.6, thickness/2);
-                    cylinder(r=4, h=thickness);
-                }
-            }
-            
-            translate([0, 0, bottom_height*.6])
-                scale([1,1,.5])
-                rotate([0, 90, 0])
-               ;// cylinder(r=bottom_height/3, h=width*.9, center=true);
             }
             
             // screw holes
@@ -65,7 +50,7 @@ module flange() {
                 translate([width/5  , width/7, -1])
                     cylinder(r=r, h=bottom_height+mount_gap);
             } else {
-                translate([0, width/4, -1])
+                translate([0, width/8, -1])
                     cylinder(r=2.4, h=bottom_height+mount_gap);
             }
             translate([0, -width/3,-.1])
@@ -74,11 +59,12 @@ module flange() {
 }
 
 module mount() {
-    dx = highpower ? 5 : midpower ? 5.5    : 3;
-    dy = highpower ? 5 : midpower ? 4.5    : 3;
+    dx = highpower ? 5.5 : midpower ? 5.5    : 3.5;
+    dy = highpower ? 5 : midpower ? 4.5    : 3.5; 
+    r = highpower || midpower ? 5 : 3.5 ;
    translate([dy-width/2+width_gap, dx-length/2, thickness])
     difference() {
-            cylinder(r=5, h=bottom_height-board_thickness-.7);
+            cylinder(r=r, h=bottom_height-board_thickness-.7);
         cylinder(r=1.5, h=bottom_height+1);
     }
 }
@@ -109,7 +95,7 @@ module bottom() {
         flange();
 
         if(highpower || midpower) {
-            z = top_height+14;
+            z = bottom_height+mount_gap+2;
             intersection() {
                 translate([-2,0,z])
                     rotate([180,0,0])
@@ -154,7 +140,7 @@ module bottom() {
 }
 
 module cable_hole(cable_r) {
-    translate([-.1,0,top_height-9])
+    translate([-.1,0,-(mount_gap+bottom_height-3)])
     rotate([0, 90, 0])
     union() {
              cylinder(r=cable_r, h=2*thickness+2);
@@ -166,25 +152,20 @@ module cable_hole(cable_r) {
 module cable_holes() {
   translate([width/2, 0, 0])
     if(highpower) {
-            hull() {
-                translate([2, 45, 4])
-                    cable_hole(3);
-                translate([2, 11, 4])
-                    cable_hole(3);
-            }
-            hull() {
-                translate([2, -13, 4])
-                    cable_hole(3);
-                translate([2, -23, 4])
-                    cable_hole(3);
-            }        
-            hull() {
-                translate([2, -38, 4])
-                    cable_hole(3);
-                translate([2, -48, 4])
-                    cable_hole(3);
-            }        
-   
+       hull() {
+       cable(42);
+       cable(16);
+       }
+       
+       hull() {
+       cable(-18);
+       cable(-22);
+       }
+
+       hull() {
+       cable(-38);
+       cable(-40);
+       }
    } else if(midpower) {
        hull() {
        cable(26);
@@ -199,8 +180,8 @@ module cable_holes() {
 }
 
 module cable(x) {
-    translate([1, x, 3])
-    translate([-.1,0,top_height-9])
+    translate([1, x, 6])
+    translate([-.1,0,-(mount_gap+bottom_height)])
     rotate([0, 90, 0])
     scale([1,3,1])
              cylinder(r=3.5, h=4*thickness+2);
@@ -209,22 +190,16 @@ module cable(x) {
 module cable_space() {
   translate([width/2, 0, 0])
     if(highpower) {
-            hull() {
-                translate([2, 45, 4])
+                hull() {
+                translate([1, 49, 4])
                     cable_hole(3);
-                translate([2, 11, 4])
+                translate([1, 9, 4])
                     cable_hole(3);
             }
             hull() {
-                translate([2, -13, 4])
+                translate([1, -11, 4])
                     cable_hole(3);
-                translate([2, -23, 4])
-                    cable_hole(3);
-            }        
-            hull() {
-                translate([2, -38, 4])
-                    cable_hole(3);
-                translate([2, -48, 4])
+                translate([1, -47, 4])
                     cable_hole(3);
             }        
    
@@ -241,21 +216,21 @@ module cable_space() {
                 translate([1, -41, 5])
                     cable_hole(3);
             }
-            hull() {
-                translate([-55, 52, 9])
-                rotate(90)        cable_hole(3.5);
+          hull() {
+                translate([-57, 52, 9])
+                rotate(90)    cable_hole(3.5);
             } 
    } else {
        hull() {
-           translate([2, 26, 4])
+           translate([1, 26, 4])
               cable_hole(3);
-           translate([2, 17, 4])
+           translate([1, 17, 4])
               cable_hole(3);
         }
         hull() {
-            translate([2, 2, 4])
+            translate([1, 2, 4])
             cable_hole(3);
-            translate([2, -7, 4])
+            translate([1, -7, 4])
             cable_hole(3);
         }        
         hull() {
@@ -282,6 +257,7 @@ module tabs(z,l) {
 
 module air_vent(hole) {
     height=bottom_height+top_height;
+    if(midpower || highpower)     
     translate([-width/2-thickness, 0, 0]) {
     if(hole) {
         rotate([0,-90,0]) 
@@ -327,7 +303,7 @@ module top() {
                     translate([width/2+thickness+top_thickness+2, -1, top_thickness])
                         cylinder(r=5, h=top_height+bottom_height+thickness);
                     translate([width/2+thickness+top_thickness+2, -30, top_thickness])
-                        cylinder(r=5, h=top_height+bottom_height+thickness);
+                        cylinder(r=5, h=top_height*.7);
             } else if(midpower) {
                     translate([width/2+thickness+top_thickness+2, -8, top_thickness])
                         cylinder(r=5, h=top_height*.7);
@@ -336,7 +312,9 @@ module top() {
                     translate([width/2+thickness+top_thickness+2, 9.5+i*23, top_thickness])
                         cylinder(r=3.5, h=top_height+bottom_height+thickness);
             }
-            for(i=[-18:16]) {
+            start = highpower || midpower ? -18 : -13;
+            end = highpower || midpower ? 16: 12;
+            for(i=[start:end]) {
                 translate([width/2+2*thickness, 3*i+2, 0])
                 union() {
                     translate([0, 0, top_thickness])
@@ -345,8 +323,7 @@ module top() {
                         sphere(r=2.);
                  }
              }
-             
-             air_vents(false);
+              air_vents(false);
         }
         air_vents(true);
         fit_width=.6;
@@ -365,8 +342,11 @@ module top() {
             translate([0, 0,100])
             cubecxy(width, length, thickness);
         }
+        
+        translate([0,0,top_height]) {
         cable_space();
             cable_holes();
+        }
 
     }
         
@@ -374,8 +354,8 @@ module top() {
         translate([width/2+3, 9.5, thickness])
             cylinder(r=4.5, h=top_height);
 
-    all() topmount();
-    all() tabs(top_height+bottom_height+top_thickness+.4, 0);
+   all() topmount();
+  all() tabs(top_height+bottom_height+top_thickness+.4, 0);
 
     font = "Liberation Sans";
     translate([0,0, 2])
@@ -386,14 +366,13 @@ module top() {
 }
 
 //translate([1.4*width, 0, 0])
- //  bottom();
+//bottom();
 
 
 
-//translate([0,0,35])
+//translate([0,0, top_height+bottom_height+thickness*2+.01+mount_gap])
 //rotate([180,0,0]) 
 {
-
 
 top();
 
