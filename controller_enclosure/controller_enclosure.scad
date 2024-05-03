@@ -1,6 +1,6 @@
 $fn=30;
 
-highpower=true;
+highpower=false;
 midpower=false;
 
 width_gap=1.6;
@@ -22,24 +22,23 @@ module cubecxy(x, y, z) {
 
 
 mount_gap=highpower ? 5 : 4;
+r_rad = highpower || midpower ? 6 : 5.5;
 module flange() {
     translate([0, length/2, .2])
     difference() {
         hull() {            
-                hull() {
                     translate([-width*.26, 0, 0])
                      rotate(45)
                      minkowski() {
                         cubecxy(width*.25, width*.2, thickness/2);
-                        cylinder(r=6, h=mount_gap+bottom_height/3);
+                        cylinder(r=r_rad, h=mount_gap+bottom_height/3);
                     }
                     translate([ width*.26, 0,0])
                     rotate(-45)
                         minkowski() {
                             cubecxy(width*.25, width*.2, thickness/2);
-                            cylinder(r=6, h=mount_gap+bottom_height/3);
+                            cylinder(r=r_rad, h=mount_gap+bottom_height/3);
                         }
-                }
             }
             
             // screw holes
@@ -100,7 +99,7 @@ module bottom() {
                 translate([-2,0,z])
                     rotate([180,0,0])
                     difference() {
-                       cable_space(); 
+                        cable_space(); 
                         cable_holes();
                     }
                 translate([width/2-1, -length/2, mount_gap])
@@ -190,7 +189,7 @@ module cable(x) {
 module cable_space() {
   translate([width/2, 0, 0])
     if(highpower) {
-                hull() {
+            hull() {
                 translate([1, 49, 4])
                     cable_hole(3);
                 translate([1, 9, 4])
@@ -202,7 +201,10 @@ module cable_space() {
                 translate([1, -47, 4])
                     cable_hole(3);
             }        
-   
+            hull() {
+                translate([-75, 58, 9])
+                rotate(90)    cable_hole(3.5);
+            } 
    } else if(midpower) {
             hull() {
                 translate([1, 33, 5])
@@ -216,7 +218,7 @@ module cable_space() {
                 translate([1, -41, 5])
                     cable_hole(3);
             }
-          hull() {
+         hull() {
                 translate([-57, 52, 9])
                 rotate(90)    cable_hole(3.5);
             } 

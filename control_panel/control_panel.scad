@@ -1,21 +1,20 @@
 $fn=40;
 
-uselip=false;
+height=6.8;
 
+//height=5.2;
 
 module panel(h)
 {
-     if(1)   linear_extrude(height=h) {
-  
-       import("pypilot_remote_rf.svg");    
-            
-            
+     if(1)
+         linear_extrude(height=h) {
+         import("pypilot_remote_rf.svg");
     }
-    if(1)
+    if(0)
     translate([5.5, 5, 0])
     minkowski() {
-    cube([66, 34.5, 10]);
-        cylinder(r=5,h=10);
+    cube([65.7, 35, 10]);
+        cylinder(r=5, h=10);
     }
 }
 
@@ -47,17 +46,17 @@ difference() {
 module screw()
 {
     cylinder(r=1.8, h=20);
-    translate([0,0,8])
+    translate([0,0,height+1.2])
     cylinder(r1=1.8, r2=4, h=4);
 }
 
 difference() {  
     minkowski() {
-        cube([76, 44, uselip ? 12 : 10.5]);
+        cube([76, 44, 4+height]);
         cylinder(r=5,h=.1);
     }
 
-    translate([-.5, -.5, 7.8])
+    translate([-.5, -.5, 1+height])
     scale(1.005)
        panel(3.5);
 
@@ -74,7 +73,7 @@ difference() {
         cylinder(r=7, h=10);
 
     
-    translate([-10,27,6 ])
+    translate([-10,27,height-2.6 ])
         rotate([0,90,0])
             cylinder(r=2.3, h=20);
 
@@ -90,10 +89,8 @@ difference() {
     translate([-1,45,0])
         screw();
 
-translate([20,-4.5,(uselip ? 4 : 3)])
+translate([20,-4.5,height/2])
 rotate([90,0,0])
 linear_extrude(2)
 text("pypilot",  size=7);
-
-
 }

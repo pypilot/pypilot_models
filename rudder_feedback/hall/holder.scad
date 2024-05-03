@@ -9,14 +9,14 @@
 $fn=60;
 
 bolt_height = 4;
-bolt_diameter = 5.4;
-magnet_diameter = 14.5;
-magnet_height = 3.4;
+bolt_diameter = 8.1;
+magnet_diameter = 14.8;
+magnet_height = 3.6;
 nut_height = 3;
-bearing_height = 23;
+bearing_height = 24.5;
 
-washer_diameter =14;
-washer_thickness=.8;
+washer_diameter = 9.7;
+washer_thickness = 2.7;
 
 board_width =12;
 board_length = 8.2;
@@ -25,7 +25,7 @@ board_holder_thickness=2;
 
 screw_diameter=3.6;
 
-fit=.4;
+fit=.5;
 wire_r = 3;
 
 total_height = bolt_height+magnet_height+nut_height+bearing_height+board_height+board_holder_thickness;
@@ -49,15 +49,13 @@ holder_length=total_radius - board_length;
 module top() {
     difference() {
    ocylinder(r=magnet_diameter/2, h = h1);
-        translate([0,0,h1-.4])
-   ocylinder(r=bolt_diameter/2+1, h = h1);
     }
     translate([0, 0, h1-2])
        ocylinder(r=bolt_diameter/2, h=bearing_height+2);
     translate([0, 0, h1+bearing_height-washer_thickness])
-
-       ocylinder(r=washer_diameter/2, h=washer_thickness+1);
-    
+       ocylinder(r=washer_diameter/2, h=washer_thickness);
+    translate([0, 0, h1])
+       ocylinder(r=washer_diameter/2, h=washer_thickness);
 }
 
 module holder() {
@@ -69,7 +67,7 @@ module holder() {
         
         hull() {
             ccube(board_width+2*t+fit, board_length+2*t+fit, board_height+t+fit+.2);
-                translate([-holder_length*3/4+fit, 0, 0])
+                translate([-holder_length*3/4-fit, 0, 0])
                     ccube(1, wire_r*3+fit, board_height+t+fit+.2);
         }
         ocylinder(r=magnet_diameter/2, h = board_height+t);
@@ -84,7 +82,7 @@ module base(radius) {
            translate([radius, 0, 0])
              cylinder(h=7, r=total_radius/2.7 );
        }
-       cylinder(r=radius, h7);
+       cylinder(r=radius, h=1);
      }
      translate([0, 0, -.1])
      cylinder(r1=radius-.5, r2 = radius-12, h= 22);
@@ -130,7 +128,7 @@ module board_holder() {
     }
 }
 
-if(1)
+if(0)
 union() {
   translate([0, 0, total_height])
      mirror([0,0,1]) {
@@ -154,6 +152,9 @@ union() {
         }
     }
 }
-else
-    translate([total_radius*2, 0, 0])
-    board_holder();
+
+//    translate([total_radius*2, 0, 0])
+//translate([0, 0, total_height])
+//rotate([180,0,0])
+//rotate(180)
+   board_holder();
