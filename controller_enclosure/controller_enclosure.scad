@@ -5,10 +5,10 @@ midpower=false;
 
 width_gap=1.6;
 width = (highpower ? 85.5 : (midpower ? 71 : 50)) + width_gap*2;
-length = highpower ? 116 : (midpower ? 104 : 76);
+length = highpower ? 116 : (midpower ? 104 : 76.5);
 
 bottom_height = highpower ? 10 : midpower ? 8 : 8;
-thickness = 1.2;
+thickness = highpower || midpower ? 1.2 : 1;
 top_thickness = 1.6;
 bottom_edge = 12;
 board_thickness=3;
@@ -84,7 +84,7 @@ module all() {
 module bottom() {
   difference() {
     union() {
-        translate([0, thickness/4, mount_gap])
+        translate([0, 0, mount_gap])
         minkowski() {
             cubecxy(width+thickness/2, length, bottom_height-thickness);
             cylinder(r=thickness, h=thickness);
@@ -368,7 +368,7 @@ module top() {
 }
 
 //translate([1.4*width, 0, 0])
-//bottom();
+bottom();
 
 
 
@@ -376,6 +376,6 @@ module top() {
 //rotate([180,0,0]) 
 {
 
-top();
+//top();
 
 }

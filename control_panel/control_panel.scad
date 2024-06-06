@@ -1,8 +1,8 @@
 $fn=40;
 
-height=6.8;
+//height=6.8;
 
-//height=5.2;
+height=4.5;
 
 module panel(h)
 {
@@ -73,9 +73,9 @@ difference() {
         cylinder(r=7, h=10);
 
     
-    translate([-10,27,height-2.6 ])
+    translate([-10,27,2.75 ])
         rotate([0,90,0])
-            cylinder(r=2.3, h=20);
+            cylinder(r=2.75, h=20);
 
     translate([-1,-1,0])
         screw();
