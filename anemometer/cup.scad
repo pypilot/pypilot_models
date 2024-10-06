@@ -8,7 +8,7 @@ bearing_h = 7.3;
 
 angle=86;
 
-pipe_d=9;
+pipe_d=9.2;
 
 magnet_d=4.1;
 
@@ -20,7 +20,11 @@ difference() {
         translate([0, 0, -bearing_h])
         
         minkowski() {
-            cylinder(r=bearing_d/2+1, h=bearing_h*2+key_r*2);
+            union() {
+                translate([0,0, -5])
+                cylinder(r2=bearing_d/2+1, r1 = pipe_d/2, h=5);
+                cylinder(r=bearing_d/2+1, h=bearing_h*2+key_r*2);
+            }
             sphere(1.4);
         }
               difference() {
@@ -57,9 +61,7 @@ difference() {
                                 }
                               sphere(2);
                             }
-                        
                         }
-    
     }
     
     translate([0, 0, -20])
@@ -97,7 +99,7 @@ difference() {
   translate([0, 0, -2])
     cylinder(r=bearing_d/2-2, h=bearing_h+2);
 
-  cylinder(r=pipe_d/2, h=bearing_h*3, center=true);
+  cylinder(r=pipe_d/2, h=bearing_h*4, center=true);
 
   translate([0, 0, -bearing_d/4])
     rotate(-60)

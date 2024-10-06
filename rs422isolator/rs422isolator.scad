@@ -2,7 +2,7 @@ $fn = 60;
 
 board_length = 49;
 board_width = 21;
-board_height=17;
+board_height=16.5;
 thickness = 2;
 fit=.4;
 
@@ -40,7 +40,7 @@ difference() {
         screw_holder();
     }
 
-    translate([-board_length/2, -board_width/2, thickness])
+    translate([-board_length/2, -board_width/2, thickness-.4])
         cube([board_length, board_width, board_height]);
   /*  
     translate([board_length/4, 0, 0])
@@ -50,12 +50,16 @@ difference() {
     */
     
     hull() {
-        translate([board_length/2-2, -5.5, 5.9])
-            cube([5, 6.5, 1.5]);
-        translate([board_length/2-2, -6, 8.5])
-           cube([5, 7.6, 2]);
+        translate([board_length/2-2, -5.5, 8.2])
+        rotate([0,90,0])
+            cylinder(r=1.7, h=10);
+        translate([board_length/2-2, .5, 8.2])
+        rotate([0,90,0])
+            cylinder(r=1.7, h=10);
     }
     
+        translate([board_length/2-.2, -8, 5.9])
+    cube([1,11,5]);
     
     translate([-board_length/2-thickness*2, 0, 9]) {
        translate([0, -7.5, 0])

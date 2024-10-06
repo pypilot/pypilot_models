@@ -1,4 +1,4 @@
-//  petg
+    //  petg
 //  infil 28%
 // temp 238
 // layer height .25, line width .4
@@ -18,7 +18,7 @@ bearing_height = 24.5;
 washer_diameter = 9.7;
 washer_thickness = 2.7;
 
-board_width =12;
+board_width =12.2;
 board_length = 8.2;
 board_height = 6;
 board_holder_thickness=2;
@@ -104,16 +104,16 @@ module board_holder() {
     difference() {
         union() {
             translate([0, 0, -.1])
-            cylinder(r=magnet_diameter/2-fit, h = board_height+t+.2);
+            cylinder(r=magnet_diameter/2-fit/2, h = board_height+t+.2);
             hull() {
                 ccube(board_width+2*t, board_length+2*t, board_height+t);
-                translate([holder_length*3/4, 0, 0])
+                translate([holder_length*3/4+.2, 0, 0])
                     ccube(1, wire_r*3, board_height+t);
             }
         }
        translate([0, 0, wire_r*2+t/2-2.5]) {
            translate([0, 0, -.1])
-           cylinder(r=magnet_diameter/2-fit-t*3/4, board_height);
+           cylinder(r=magnet_diameter/2-fit/2-t*3/4, board_height);
           ccube(board_width, board_length, board_height+wire_r);
        }
         translate([-board_width/2, 0, wire_r/2+2.05])
@@ -154,7 +154,8 @@ union() {
 }
 
 //    translate([total_radius*2, 0, 0])
-//translate([0, 0, total_height])
-//rotate([180,0,0])
-//rotate(180)
-   board_holder();
+/*translate([0, 0, total_height])
+rotate([180,0,0])
+rotate(180)
+  */
+board_holder();

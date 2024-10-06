@@ -1,8 +1,8 @@
 $fn=40;
 
-//height=6.8;
+height=6.8;
 
-height=4.5;
+//height=4.5;
 
 module panel(h)
 {
